@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Iniciar Sesión</title>
+<link rel="stylesheet" href="css/960.css" type="text/css" media="screen" charset="utf-8" />
+<!--<link rel="stylesheet" href="css/fluid.css" type="text/css" media="screen" charset="utf-8" />-->
+<link rel="stylesheet" href="css/template.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="css/colour.css" type="text/css" media="screen" charset="utf-8" />
+<!--[if lt IE 9]>
+<script src="engine/html5shiv.js"></script>
+<![endif]-->
+</head>
+
+<body>
+<header>
+<nav>
+<a href="#"></a>
+</nav>
+
+</header>
+<h1 id="head" align="center">Agenda</h1>
+  <div id="content" class="container_16 clearfix">
+  <div class="boxlogo">
+    <img src="img/inicio.png" width="414" height="447"  alt=""/></div>
+  <div class="boxlogin">
+    <h2>Iniciar sesión</h2>
+    <div class="utils">
+       <form method="post" action="" id="login_form">
+       <div class="grid_5A">
+       <p>
+          <input name="username" type="text" id="username" value="" maxlength="20" placeholder="Usuario" />
+       </p> 
+       </div> 
+       <div class="grid_5A">
+       <p> 
+          <input name="password" type="password" id="password" value="" maxlength="20" placeholder="Contraseña" />
+       </p> 
+       </div> 
+
+       <div class="grid_5A">
+       <p> 
+
+         <input name="Submit" type="submit" id="submit" value="Iniciar" />  
+       </p> 
+       <span id="msgbox" style="display:none"></span> 
+       </div> 
+
+
+       </form>
+
+       </div><a href="registro.php" > Registrate</a> 
+   </div>
+   
+    
+  
+</div>
+<script src="js/jquery.js" type="text/javascript" language="javascript"></script>
+<script language="javascript">
+
+$(document).ready(function()
+{
+  $("#login_form").submit(function()
+  {
+    
+    $("#msgbox").removeClass().addClass('messagebox').text('Validando....').fadeIn(1000);
+    //Checa  si existe el nombre de usuario existe
+    $.post("php/ajax_login.php",{ user_name:$('#username').val(),password:$('#password').val(),rand:Math.random() } ,function(data)
+        {
+      if(data=='yes') //En caso de que el login sea correcto
+      {
+        $("#msgbox").fadeTo(200,0.1,function()
+      { 
+        //muestra el mensaje cuando el acceso es Correcto
+        $(this).html('Entrando .....').addClass('messageboxok').fadeTo(900,1,
+              function()
+        { 
+           //redirecciona a la pagína de inicio
+         document.location='inicio.php';
+        });
+        
+      });
+      }
+      else 
+      {
+        $("#msgbox").fadeTo(200,0.1,function() 
+      { 
+        //muestra el mensaje cuando el acceso es Incorrecto
+        $(this).html('Error al iniciar...').addClass('messageboxerror').fadeTo(900,1);
+      });   
+          }
+        
+        });
+    return false; 
+  });
+  //llama a ajax
+  $("#password").blur(function()
+  {
+    $("#login_form").trigger('submit');
+  });
+});
+
+</script>
+</body>
+</html>
